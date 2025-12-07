@@ -1,0 +1,85 @@
+-- 🌸💖 LU HUB - MENU CUTE (Somente Exibir IDs + Arrastável) 💖🌸
+
+local Player = game.Players.LocalPlayer
+
+-- Criar ScreenGui
+local Gui = Instance.new("ScreenGui")
+Gui.Parent = Player:WaitForChild("PlayerGui")
+Gui.ResetOnSpawn = false
+Gui.Name = "LuHubCuteMenu"
+
+-- Fundo do menu
+local Main = Instance.new("Frame")
+Main.Parent = Gui
+Main.Size = UDim2.new(0, 300, 0, 300)
+Main.Position = UDim2.new(0.5, -150, 0.5, -150)
+Main.BackgroundColor3 = Color3.fromRGB(255, 182, 193)
+Main.BorderSizePixel = 0
+Main.Active = true     -- NECESSÁRIO PARA ARRASTAR
+Main.Draggable = true  -- ARRASTAR ATIVADO
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 20)
+UICorner.Parent = Main
+
+-- Título Cute
+local Title = Instance.new("TextLabel")
+Title.Parent = Main
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Position = UDim2.new(0,0,0,0)
+Title.BackgroundTransparency = 1
+Title.Text = "🌸🎀 Lu Hub – Animações 🎀🌸"
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.Font = Enum.Font.GothamBold
+Title.TextScaled = true
+
+-- Scroll que mostra as animações
+local Scroll = Instance.new("ScrollingFrame")
+Scroll.Parent = Main
+Scroll.Size = UDim2.new(1, -20, 1, -60)
+Scroll.Position = UDim2.new(0, 10, 0, 50)
+Scroll.BackgroundTransparency = 1
+Scroll.CanvasSize = UDim2.new(0,0,0,300)
+Scroll.ScrollBarThickness = 6
+
+local Animations = {
+    Idle = 16744209868,
+    Walk = 16744219182,
+    Run  = 16744214662,
+    Jump = 16744214662,
+    Fall = 16744207822,
+    Climb = 16744204409,
+    Swim = 16744217055,
+}
+
+-- Criar cada linha cute
+local y = 0
+for nome, id in pairs(Animations) do
+    local Label = Instance.new("TextLabel")
+    Label.Parent = Scroll
+    Label.Size = UDim2.new(1, -10, 0, 35)
+    Label.Position = UDim2.new(0, 0, 0, y)
+    Label.BackgroundColor3 = Color3.fromRGB(255, 205, 220)
+    Label.Text = "🎀 " .. nome .. " → " .. id .. " 🎀"
+    Label.TextColor3 = Color3.fromRGB(255,255,255)
+    Label.Font = Enum.Font.Gotham
+    Label.TextScaled = true
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 12)
+    corner.Parent = Label
+
+    y = y + 40
+end
+
+-- Abrir/fechar com L
+local UIS = game:GetService("UserInputService")
+local aberto = true
+
+UIS.InputBegan:Connect(function(key, gp)
+    if gp then return end
+    if key.KeyCode == Enum.KeyCode.L then
+        aberto = not aberto
+        Main.Visible = aberto
+    end
+end)
